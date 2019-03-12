@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="/css/pandoc_github.css" type="text/css" />
+</head>
+<body>
+<h1 id="josephus-&#38382;&#39064;">Josephus &#38382;&#39064;</h1>
+<p>&#20998;&#21035;&#20351;&#29992;&#25968;&#32452;&#21644;&#38142;&#34920;&#35299;&#20915; Josephus &#38382;&#39064;&#12290;<br />
+&#36825;&#26159;&#22823;&#27010;&#19968;&#24180;&#21069;&#20889;&#30340;&#19968;&#27573;&#31243;&#24207;&#20102;&#65292;&#33258;&#24049;&#30475;&#20102;&#22909;&#20037;&#25165;&#30475;&#26126;&#30333;&#36807;&#26469;&#65292;&#22914;&#26524;&#27809;&#26377;&#21069;&#38754;&#30340;&#24605;&#36335;&#65292;&#25105;&#35273;&#24471;&#33258;&#24049;&#24212;&#35813;&#26159;&#30475;&#19981;&#25026;&#20102;&#12290;&#36825;&#35828;&#26126;&#65306;</p>
+<ul>
+<li>&#31243;&#24207;&#20889;&#22909;&#27880;&#37322;&#26159;&#24456;&#37325;&#35201;&#30340;</li>
+<li>&#20154;&#30495;&#30340;&#24456;&#38590;&#20102;&#35299;&#24403;&#21021;&#30340;&#33258;&#24049;&#26159;&#24590;&#20040;&#24819;&#30340;</li>
+<li>&#20154;&#30340;&#30693;&#35782;&#20307;&#31995;&#26159;&#21464;&#21270;&#30528;&#30340;</li>
+</ul>
+<p>&#38382;&#39064;&#37325;&#36848;&#65306;&#35774;&#26377; n &#20010;&#20154;&#22260;&#22352;&#22312;&#19968;&#20010;&#22278;&#26700;&#21608;&#22260;&#65292;&#29616;&#20174;&#31532; s &#20010;&#20154;&#24320;&#22987;&#25253;&#25968;&#65292;&#25968;&#21040;&#31532; m &#20010;&#20154;&#20986;&#21015;&#65292;&#28982;&#21518;&#20174;&#19979;&#19968;&#20010;&#20154;&#24320;&#22987;&#25253;&#25968;&#65292;&#25968;&#21040;&#31532; m &#20010;&#20154;&#20877;&#20986;&#21015;&#8230;&#8230;&#27714;&#20986;&#21015;&#27425;&#24207;&#12290;<br />
+&#19968;&#24180;&#21069;&#30340;&#24605;&#36335;&#26159;&#65306;&#20351;&#29992; n+1 &#38271;&#24230;&#30340;&#25968;&#32452;&#65292;0 &#19979;&#34920;&#30340;&#19981;&#20351;&#29992;&#65288;&#20026;&#20102;&#35745;&#31639;&#26041;&#20415;&#65289;&#65292;&#27599;&#25968;&#21040;&#19968;&#20010;&#20154;&#65292;&#23558;&#23427;&#30340;&#33267;&#31227;&#21040;&#26368;&#21518;&#38754;&#65292;&#28982;&#21518;&#23558;&#36825;&#20010;&#19979;&#34920;&#21518;&#38754;&#25152;&#26377;&#26410;&#31227;&#21160;&#30340;&#25968;&#21521;&#21069;&#31227;&#21160;&#19968;&#20301;&#65292;&#30452;&#21040;&#21097;&#19979;&#19968;&#20010;&#26410;&#31227;&#21160;&#30340;&#25968;&#12290;</p>
+<p>&#31243;&#24207;&#20195;&#30721;&#22914;&#19979;&#65306;</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#include &lt;stdio.h&gt;</span>
+<span class="ot">#include &lt;malloc.h&gt;</span>
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv)
+{
+    <span class="dt">int</span>        n, m, s;   <span class="co">// n: the whole people</span>
+                          <span class="co">// m: the length to select a people</span>
+                          <span class="co">// s: begin from </span>
+
+    <span class="dt">int</span>        s1;        <span class="co">// s1:current point people</span>
+    <span class="dt">int</span>        *p;        <span class="co">// p: point to array</span>
+    <span class="dt">int</span>        i, j;
+    <span class="dt">int</span>        tmp;
+    printf(<span class="st">&quot;Input n, m and s:</span><span class="ch">\n</span><span class="st">&quot;</span>);
+    scanf(<span class="st">&quot;%d %d %d&quot;</span>, &amp;n, &amp;m, &amp;s);
+    p = (<span class="dt">int</span> *)malloc((n + <span class="dv">1</span>) * <span class="kw">sizeof</span>(<span class="dt">int</span>));
+    
+    <span class="co">//init</span>
+    s1 = s;
+    <span class="kw">for</span> (i = <span class="dv">1</span>;i &lt;= n; i++){
+        p[i] = i;
+    }
+
+    <span class="kw">for</span> (i = n; i &gt;= <span class="dv">1</span>; i--){
+        s1 = (s1 + m - <span class="dv">1</span>) % i;
+        <span class="kw">if</span> (<span class="dv">0</span> == s1){
+            s1 = i;
+        }
+        tmp = p[s1];
+        <span class="kw">for</span> (j = s1; j &lt;= i - <span class="dv">1</span>; j++ ){
+            p[j] = p[j<span class="dv">+1</span>];
+        }
+        p[i] = tmp;
+    }
+    
+    <span class="kw">for</span> (i = <span class="dv">1</span>; i &lt;= n / <span class="dv">2</span>; i++){
+        tmp = p[i];
+        p[i] = p[n-i<span class="dv">+1</span>];
+        p[n-i<span class="dv">+1</span>] = tmp;
+    }
+
+    <span class="co">//print the result</span>
+    printf(<span class="st">&quot;The people order is:</span><span class="ch">\n</span><span class="st">&quot;</span>);
+    <span class="kw">for</span>(i = <span class="dv">1</span>;i &lt;= n;i++){
+        printf(<span class="st">&quot;%d</span><span class="ch">\t</span><span class="st">&quot;</span>,p[i]);
+    }
+    printf(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>);
+
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>&#36825;&#31181;&#31639;&#27861;&#20854;&#20013;&#26377;&#22823;&#37327;&#30340;&#31227;&#21160;&#36816;&#31639;&#65292;&#23548;&#33268;&#31243;&#24207;&#25928;&#29575;&#19981;&#39640;&#65292;&#34429;&#28982;&#31354;&#38388;&#22797;&#26434;&#24230;&#36739;&#23567;&#12290;&#21487;&#20197;&#35797;&#30528;&#29992;&#38142;&#34920;&#37325;&#26032;&#23454;&#29616;&#65292;&#25552;&#39640;&#31243;&#24207;&#25928;&#29575;&#12290;<br />
+&#26152;&#22825;&#29992;&#38142;&#34920;&#23454;&#29616;&#20102;&#36825;&#20010;&#38382;&#39064;&#12290;</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">/*use chain to solve Josephus problem</span>
+<span class="co"> * use cycle chain</span>
+<span class="co">*/</span>
+<span class="ot">#include &lt;stdio.h&gt;</span>
+<span class="ot">#include &lt;stdlib.h&gt;</span>
+
+<span class="kw">struct</span> Node;
+<span class="kw">typedef</span> <span class="kw">struct</span> Node *PtrNode;
+<span class="kw">typedef</span> PtrNode Position;
+
+<span class="kw">struct</span> Node 
+{
+    <span class="dt">int</span> Element;
+    Position Next;
+};
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv)
+{
+    <span class="dt">int</span> n, m, s;  <span class="co">//n:the whole people</span>
+                  <span class="co">//m:the length to select a people</span>
+                  <span class="co">//s:begin from</span>
+
+    <span class="dt">int</span> i;
+    PtrNode newNode;
+    PositioncurrentPosition;
+    Position head, cursor;
+    printf(<span class="st">&quot;input n(whole people), m(lenght to select) and s(begin from):&quot;</span>);
+    <span class="kw">if</span>(scanf(<span class="st">&quot;%d %d %d&quot;</span>, &amp;n, &amp;m, &amp;s)!=<span class="dv">3</span>){
+        printf(<span class="st">&quot;scanf error!&quot;</span>);
+    }
+
+    <span class="co">//Init</span>
+    <span class="kw">for</span>(i=<span class="dv">1</span>; i&lt;=n; i++){
+        newNode=malloc(<span class="kw">sizeof</span>(<span class="kw">struct</span> Node));
+        newNode-&gt;Element=i;
+        <span class="kw">if</span>(i==<span class="dv">1</span>){
+            currentPosition=newNode; 
+            head=newNode;
+        } <span class="kw">else</span> {
+            currentPosition-&gt;Next=newNode;
+            currentPosition=newNode;
+        }
+    } 
+    
+    cursor=head;
+    <span class="kw">while</span>(cursor-&gt;Next!=NULL){
+        cursor=cursor-&gt;Next;
+    }
+    
+    <span class="co">//point the last to the head,get a cycle chain</span>
+    cursor-&gt;Next=head;
+
+    <span class="co">//start from s,cursor point to s-1</span>
+    <span class="kw">if</span>(s!=<span class="dv">1</span>){
+        <span class="kw">for</span>(i=<span class="dv">1</span>;i&lt;s;i++){
+            cursor=cursor-&gt;Next;    
+        }
+    }
+
+    <span class="co">//start the game</span>
+    <span class="kw">if</span>(m==<span class="dv">1</span>){
+        cursor=cursor-&gt;Next;
+        <span class="kw">for</span>(i=n;i&gt;=<span class="dv">1</span>;i--){
+            printf(<span class="st">&quot;%d &quot;</span>, cursor-&gt;Element);
+            cursor=cursor-&gt;Next;
+        }
+        
+    } <span class="kw">else</span> {
+        <span class="kw">while</span>(cursor-&gt;Next!=cursor){
+            <span class="kw">for</span>(i=<span class="dv">1</span>;i&lt;m;i++){
+                cursor=cursor-&gt;Next;
+            }
+            printf(<span class="st">&quot;%d &quot;</span>,cursor-&gt;Next-&gt;Element);
+            cursor-&gt;Next=cursor-&gt;Next-&gt;Next;
+        }
+
+        printf(<span class="st">&quot;%d&quot;</span>, cursor-&gt;Element);
+    }
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+</body>
+</html>
