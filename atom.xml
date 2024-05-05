@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ncg.moe</title>
+  
+  
+  <link href="http://ncg.moe/atom.xml" rel="self"/>
+  
+  <link href="http://ncg.moe/"/>
+  <updated>2024-05-05T13:46:29.844Z</updated>
+  <id>http://ncg.moe/</id>
+  
+  <author>
+    <name>ncg.moe</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>从C的do-while到Golang的defer、Python的with、CPP的RAII</title>
+    <link href="http://ncg.moe/2024/05/05/do_while_zero_and_defer_and_with_and_raii/"/>
+    <id>http://ncg.moe/2024/05/05/do_while_zero_and_defer_and_with_and_raii/</id>
+    <published>2024-05-05T13:46:29.844Z</published>
+    <updated>2024-05-05T13:46:29.844Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;从C中的-do-while-1-说起&quot;&gt;&lt;a href=&quot;#从C中的-do-while-1-说起&quot; class=&quot;headerlink&quot; title=&quot;从C中的 do-while(1) 说起&quot;&gt;&lt;/a&gt;从C中的 do-while(1)</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>一边好玩，一遍改变世界</title>
+    <link href="http://ncg.moe/2024/04/05/just_for_fun/"/>
+    <id>http://ncg.moe/2024/04/05/just_for_fun/</id>
+    <published>2024-04-05T06:59:04.430Z</published>
+    <updated>2024-04-05T06:59:04.430Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Linus 何许人也？对于这个世界上的几千万人来说，他是神，对于另外的几十亿人来说，这只是一个完全陌生的人名，尽管几乎他们每一个人都受益于 Linus 这个人，因为我们整个时代都受益于 Linus 啊！他和他创造的 linux 系统改变了整个 IT 发展的进程，他的</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
