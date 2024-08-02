@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ncg.moe</title>
+  
+  
+  <link href="http://ncg.moe/atom.xml" rel="self"/>
+  
+  <link href="http://ncg.moe/"/>
+  <updated>2024-08-02T16:07:02.145Z</updated>
+  <id>http://ncg.moe/</id>
+  
+  <author>
+    <name>ncg.moe</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>邮件列表关于PG多进程改多线程的讨论</title>
+    <link href="http://ncg.moe/2024/08/03/pg_to_multi_threads/"/>
+    <id>http://ncg.moe/2024/08/03/pg_to_multi_threads/</id>
+    <published>2024-08-02T16:07:02.145Z</published>
+    <updated>2024-08-02T16:07:02.145Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;据说这是 PG 社区每隔一段时间就被拿出来讨论的一个事情，最近的一次比较广泛的讨论时 Heikki 提出的，同时在 Hacker News</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>论文阅读笔记：The Native POSIX Thread Library for Linux</title>
+    <link href="http://ncg.moe/2024/07/13/read_the_native_posix_thread_library_for_linux/"/>
+    <id>http://ncg.moe/2024/07/13/read_the_native_posix_thread_library_for_linux/</id>
+    <published>2024-07-13T13:59:22.874Z</published>
+    <updated>2024-07-13T13:59:22.874Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;注：讲解 nptl 设计的论文，背景是 LinuxThread 的实现不够好，后面有 nptl 路线和 ngpt 两个路线，最终 nptl 胜出。&lt;/p&gt;
+&lt;p&gt;Drepper 提前说明，文章内容可能是过时的。注：这篇文章发表于2005年。&lt;/p&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从C的do-while到Golang的defer、Python的with、CPP的RAII</title>
+    <link href="http://ncg.moe/2024/05/05/do_while_zero_and_defer_and_with_and_raii/"/>
+    <id>http://ncg.moe/2024/05/05/do_while_zero_and_defer_and_with_and_raii/</id>
+    <published>2024-05-05T15:14:58.867Z</published>
+    <updated>2024-05-05T15:14:58.867Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;从C中的-do-while-1-说起&quot;&gt;&lt;a href=&quot;#从C中的-do-while-1-说起&quot; class=&quot;headerlink&quot; title=&quot;从C中的 do-while(1) 说起&quot;&gt;&lt;/a&gt;从C中的 do-while(1)</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>一边好玩，一遍改变世界</title>
+    <link href="http://ncg.moe/2024/04/05/just_for_fun/"/>
+    <id>http://ncg.moe/2024/04/05/just_for_fun/</id>
+    <published>2024-04-05T06:59:04.430Z</published>
+    <updated>2024-04-05T06:59:04.430Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Linus 何许人也？对于这个世界上的几千万人来说，他是神，对于另外的几十亿人来说，这只是一个完全陌生的人名，尽管几乎他们每一个人都受益于 Linus 这个人，因为我们整个时代都受益于 Linus 啊！他和他创造的 linux 系统改变了整个 IT 发展的进程，他的</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>

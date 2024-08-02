@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>邮件列表关于PG多进程改多线程的讨论 · ncg.moe</title><meta name="description" content="背景据说这是 PG 社区每隔一段时间就被拿出来讨论的一个事情，最近的一次比较广泛的讨论时 Heikki 提出的，同时在 Hacker News 也引起了讨论。跟踪一下这个讨论的 topic，也学习一下在多进程 vs 多线程的选型时的优劣取舍问题。
+这个话题在其它的讨论 DB 的圈子里也偶见讨论。比如"><meta name="og:description" content="背景据说这是 PG 社区每隔一段时间就被拿出来讨论的一个事情，最近的一次比较广泛的讨论时 Heikki 提出的，同时在 Hacker News 也引起了讨论。跟踪一下这个讨论的 topic，也学习一下在多进程 vs 多线程的选型时的优劣取舍问题。
+这个话题在其它的讨论 DB 的圈子里也偶见讨论。比如"><meta name="twitter:site" content="ncg.moe"><meta name="twitter:title" content="邮件列表关于PG多进程改多线程的讨论"><meta name="twitter:card" content="summary"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/js/prism/prism.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 7.1.1"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div class="container" id="stage"><div class="row"><div class="col-sm-3 col-xs-12 side-container invisible" id="side-bar"><div class="vertical-text site-title"><h3 class="site-title-small" tabindex="-1"><a class="a-title" href="/">如诗如歌</a></h3><h1 class="site-title-large" tabindex="-1"><a class="a-title" href="/">ncg.moe</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div class="site-title-links" id="site-nav"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li class="soc"><a href="http://ncg.moe/atom.xml" target="_blank" rel="noopener noreferrer" aria-label="RSS"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2024&nbsp;<a target="_blank" href="http://ncg.moe" rel="noopener noreferrer">ncg.moe</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div class="col-sm-9 col-xs-12 main-container invisible" id="main-container"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>邮件列表关于PG多进程改多线程的讨论</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2024-08-03</span></p><p class="post-abstract"><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>据说这是 PG 社区每隔一段时间就被拿出来讨论的一个事情，最近的一次比较广泛的讨论时 Heikki 提出的，同时在 Hacker News 也引起了讨论。<br>跟踪一下这个讨论的 <a target="_blank" rel="noopener" href="https://www.postgresql.org/message-id/31cc6df9-53fe-3cd9-af5b-ac0d801163f4%40iki.fi">topic</a>，也学习一下在多进程 vs 多线程的选型时的优劣取舍问题。</p>
+<p>这个话题在其它的讨论 DB 的圈子里也偶见讨论。比如最近，看到了两个相反的观点，一个好像是德哥写的（找不到了），吐槽 PG 产品的高傲，因为多进程无法支持大并发连接；另一个是 Pigsty 的冯若航吐槽 OpenGauss 不管不顾上游下游生态扩展直接将多进程改多线程的。</p>
+<p>其中冯若航也提到了 PG 社区的讨论，应该就是上面那个 topic。这里看一下部分讨论，看下这个 topic 的各方的观点。</p>
+<h3 id="社区讨论原贴内容"><a href="#社区讨论原贴内容" class="headerlink" title="社区讨论原贴内容"></a>社区讨论原贴内容</h3><h4 id="Heikki"><a href="#Heikki" class="headerlink" title="Heikki"></a>Heikki</h4><p>Heikki 经过和一些人的讨论，认为将多进程改成单进程多线程已经是一种无声的共识了。尽管这种修改可能又很多的细节需要讨论，但是从顶层看并没有反对的理由。  </p>
+<p>在 PG 的开发者 FAQ 中，有说明为什么不使用多线程，如果这个提议没有太多反对的声音，那么 <a target="_blank" rel="noopener" href="https://wiki.postgresql.org/wiki/Developer_FAQ#Why_don.27t_you_use_raw_devices.2C_async-I.2FO.2C_.3Cinsert_your_favorite_wizz-bang_feature_here.3E.3F">FAQ 中关于不使用多线程原因的描述</a>就可以删掉了。  </p>
+<p>几个比较重要的讨论的点：</p>
+<ul>
+<li>过渡周期</li>
+</ul>
+<p>即使内核可以很快改成多线程，但是扩展却需要更多的时间适配，可以先通过 GUC 参数控制使用多进程还是多线程。</p>
+<ul>
+<li>每个连接的线程</li>
+</ul>
+<p>最直接的方式，先把每个连接改成一个线程，用来替代当前的 backend process。未来，可以引用线程池和调度；或者一个连接多个线程，或者 spawn 新的辅助线程。</p>
+<ul>
+<li>全局变量</li>
+</ul>
+<p>当前有很多的全局静态变量。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ objdump -t bin/postgres | grep -e <span class="string">&quot;\.data&quot;</span> -e <span class="string">&quot;\.bss&quot;</span> | grep -v </span><br><span class="line"><span class="string">&quot;data.rel.ro&quot;</span> | <span class="built_in">wc</span> -l</span><br><span class="line">1666</span><br></pre></td></tr></table></figure>
+
+<p>其中，一些全局变量是指向共享内存结构的指针，这些可以保持原样。另外，有很多是每个连接状态下的。最直接的方式，就是将它们改成线程局部存储的。  </p>
+<p>可能有个比较好的方式是，设计一下可以到处传递的会话上下文，或者使用一个单独的变量持有这个会话上下文。很多之前的全局变量可以变成上下文中的字段。</p>
+<ul>
+<li>扩展</li>
+</ul>
+<p>很多扩展也有全局变量或者其他在多线程环境下容易引起问题的设计。可能需要标志哪些扩展支持多线程，未来所有扩展都应该支持。  </p>
+<p>当前可以在 control file 中添加标识来说明某个扩展是否支持多线程。如果尝试加载不兼容的扩展，则报错。  </p>
+<p>我们可能需要在连接建立和销毁的时候添加新的函数 <code>_PG_init</code>。</p>
+<ul>
+<li>暴露 PIDs</li>
+</ul>
+<p>有几个地方，我们给用户暴露了 PID，比如 pg_stat_activity.pid 和 pg_terminate_backend()。这里需要修改，比如我们可以提供一个 fake PID。</p>
+<ul>
+<li>信号</li>
+</ul>
+<p>当前进程间通信使用的是信号。比如 SIGURG 用于 latches，SIGUSR1 用于 procsignal。信号的使用可以使用其他的信号进制重写。理论上，可以给每个线程单独发送信号（pthread_kill），但是最好重写。</p>
+<p>当前，可以使用 SIGINT, SIGTERM 或者 SIGHUP 给单个后端进程发送消息。我们应该使用一些更方便的替代方式。比如，将带有后端 ID 的消息发<br>送到 unix domain socket，然后使用一个新的 pg_kill 来发送消息。</p>
+<ul>
+<li>崩溃后重启</li>
+</ul>
+<p>如果一个后端进程崩溃了，那么 postmaster 可以结束所有的进程，并且重启系统。在单进程多线程的模型中，这个很难做到。我们可以继续使用一个单独的 postmaster 进程，观察主进程并处理主进程的崩溃。</p>
+<ul>
+<li>线程安全库</li>
+</ul>
+<p>我们需要使用线程安全的库，比如使用 uselocale() 替代 setlocale()。</p>
+<p>另外，Python 中有 GIL 锁，没有办法在一个进程中创建两个独立的 Python 解释器。幸运的是，Python 社区接纳了 <a target="_blank" rel="noopener" href="https://peps.python.org/pep-0684/">pep-0684</a>。这之后，就可以创建独立的 Python 解释器，每个解释器有自己独立的 GIL 锁。</p>
+<p>大致看了下，perl 和 TCL 应该是可以一个进程中运行多个解释器。其他我们使用的库也应该检查下。</p>
+<h4 id="other-opinions"><a href="#other-opinions" class="headerlink" title="other opinions"></a>other opinions</h4><ul>
+<li>Tom Lane</li>
+</ul>
+<p>认为是个灾难，太多的代码会被破坏，而且是悄无声息的，并且其中大部分不在我们控制之下。</p>
+<ul>
+<li>Tristan Partin</li>
+</ul>
+<p>1）同意会话上下文的实现比线程局部存储更简单。<br>2）可以通过 pkg-config 暴露一个参数，来告诉后台是多线程还是多进程的。<br>3）暴露 PID 是不是可以直接用 thread ID 替换呢？</p>
+<ul>
+<li>Robert Haas</li>
+</ul>
+<p>过渡期可能是无限长的，可能也可以考虑不强制要求扩展兼容多线程。</p>
+<ul>
+<li>Greg Stark</li>
+</ul>
+<p>提出了部分不知道算不算反对意见，但是认为应该普遍关注的问题。</p>
+<p>Stark 认为，线程和进程理论上是同一回事，只是在 API 的表现上不同，即在内存中，进程是默认不共享的，需要显式共享，而线程是默认共享的，需要显式不共享。有些明显的 API 的不同，比如信号的处理，但是这些都是实现细节。</p>
+<p>（Andres Freund回复这一段：理论上是这样的，但是在实践中，则是完全不对的。<br><strong>跨进程，也就是 fork 之后，分享状态是很复杂的。比如，可以在多进程间传递 FD，但是这非常依赖于平台；可以在 fork 之后共享内存，但是不同进程并不是相同的指针值。</strong>  </p>
+<p>更重要的是，线程和进程存在着很大的性能差异，拥有共同的内存映射，使得多线程可以共享 TLB，而在多进程下这是不可能的。）</p>
+<p>所以问题就变成了，是使用共享内存更好还是使用不共享内存更好，以及实现细节上的重要性是否超过这种好处。</p>
+<p>共享内存的设计，会引起复杂的数据结构的设计和混乱。共享数据的所有权、谁负责更新、错误处理、资源释放，通常比较宽松。  </p>
+<p>因此，拥有一个良好的基础功能来显式清晰地申请和管理内存是比较好的。  </p>
+<p>但是这里讨论了是都是其他的，比如使用 ptheads 的 mutex 和 条件变量 来替代我们自己的锁。<br>需要考虑一下，是否值得冒着风险引入不清晰的数据结构所有权。</p>
+<p>同意多进程和多线程同时支持的做法，但是这样也失去了使用多线程的好处，我们还是没有办法使用 pthreads， 还是得用我们自己编写的基础功能设施。<br>（Andres Freund回复这一段：可能不是这样的。比如，我们可以最终决定，在并行查询中只使用多线程，这使得我们减少大量的代码和运行时开销。）</p>
+<ul>
+<li>Ashutosh Bapat<br>多进程可以使用所有可能的核心，但是单进程多线程可以吗？这可能取决于 OS 和架构。</li>
+</ul>
+<p>一个可能的好的开始是，使用线程先替代并行任务，比如并行的 vacuum，并行的查询之类的，但是连接进程和 leader 进程还是保留，然后慢慢完全转向多线程模型。根据 Bapat 对其他产品的经验，最终可能是 多进程-多线程 的模型。</p>
+<ul>
+<li>Andres Freund</li>
+</ul>
+<p>关于扩展，一个有趣的事是，如何检测扩展支持多线程还是多进程，比如，检查 Linux 系统上，扩展有多少个可读可写的全局变量。</p>
+<p>Freund 不认为在控制文件中标记是否支持多线程是一个好主意，可能通过 PG_MODULE_MAGIC 更好。</p>
+<p>同意应该有一个单独的线程管理。</p>
+<h4 id="Hannu-Krosing"><a href="#Hannu-Krosing" class="headerlink" title="Hannu Krosing"></a>Hannu Krosing</h4><p>Krosing 列出了 FAQ 中之前关于为什么不使用多线程的论述，并且逐条进行了分析。</p>
+<ul>
+<li><p>FAQ：历史上看，线程的支持不太好并且有很多问题。<br>  Krosing：曾经是这样，现在已经支持得很好了，并且问题也很少。</p>
+</li>
+<li><p>FAQ: 同一进程中的线程的 error 会相互影响。<br>  Krosing: 对于无法检测的 error，依旧是这样的；但是对于可检测的，我们都是要重启所有的 backends 的。</p>
+</li>
+<li><p>FAQ：相对于 backend 启动的时间，多线程带来的速度提升很小。<br>  Krosing：现在有一些测量显示，在和启动无关的场景里，有显著的性能提升。<br>  Hekki 回复：不期望切换成多线程直接带来很大的性能提升，但是切换成多线程使得许多其他的事情得到帮助，比如 shared catalog cache。</p>
+</li>
+<li><p>FAQ：backend 的代码会变得更加复杂。<br>  Krosing：1）依旧是问题。2）更麻烦的是，扩展需要重写。3）很多不兼容的场景无法立即发现，需要很长的时间。</p>
+</li>
+<li><p>FAQ：backend 以进程方式结束，可以让操作系统清理所有的资源，避免资源泄露，使得 backend 停止的时候代价更小更快。<br>  Krosing：依旧是这样。<br>  Heikki回复：不太担心 PG 本身的代码，因为内存上下文和资源 owner 能够避免泄露。但是第三方的库可能有这个问题，但是多进程模型对这个问题更加宽容。</p>
+</li>
+<li><p>FAQ：debugging 多线程比多进程更难，并且 coredump 文件帮助更小。<br>  Krosing：这个被大家反驳，因为 1）现在 debugger 有对多线程的支持。2）当前没有直接的 debugger 工具，可以用来调试 pg 这种多进程+共享内存的模式。</p>
+</li>
+<li><p>FAQ：共享只读的二进制映射段以及 shared buffer 的使用，使得多进程像多线程一样高效。<br>  Krosing：有一些相反的观点。1）多进程虚拟内存的映射，会加大 RAM 的使用。2）per-backend 的缓存，比如 pg_catalog 以及 statement 的缓存，更容易在多线程中实现。3）每一次进程切换时 TLB 加载的成本很高，在多线程中则不需要。</p>
+</li>
+<li><p>FAQ：多进程的创建和销毁，有利于减少内存碎片，而在长时间运行的进程中，则很难管理。<br>  Krosing：可能依旧是这样的。</p>
+</li>
+</ul>
+</p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></span><span class="soc"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></span><span class="soc"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=http://ncg.moe/2024/08/03/pg_to_multi_threads/%20ncg.moe%20邮件列表关于PG多进程改多线程的讨论"></a></span></div><div class="pagination"><p class="clearfix"><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2024/07/13/read_the_native_posix_thread_library_for_linux/" title="论文阅读笔记：The Native POSIX Thread Library for Linux">下一篇: 论文阅读笔记：The Native POSIX Thread Library for Linux&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2024&nbsp;<a target="_blank" href="http://ncg.moe" rel="noopener noreferrer">ncg.moe</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script><script src="/js/prism/prism.js"></script></body></html>
